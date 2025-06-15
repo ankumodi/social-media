@@ -10,17 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_31_100146) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_12_120853) do
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "body"
-    t.string "tags"
     t.integer "likes"
     t.integer "dislikes"
     t.integer "views"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_taggings_on_post_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -30,4 +45,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_31_100146) do
     t.datetime "updated_at", null: false
     t.string "email"
   end
+
+  add_foreign_key "taggings", "posts"
+  add_foreign_key "taggings", "tags"
 end

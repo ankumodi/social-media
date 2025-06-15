@@ -18,7 +18,7 @@ class ApplicationController < ActionController::API
       puts 'decode'
       puts @decoded
       payload = @decoded[0]
-      @current_user = User.find_by!(username: payload['user_username'])
+      @current_user = User.find_by!(email: payload['user_email'])
       puts 'aaacurent user'
       puts @current_user
     rescue ActiveRecord::RecordNotFound => e
